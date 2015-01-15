@@ -17,10 +17,12 @@ const (
 	HeaderContentLength   = "Content-Length"
 	HeaderContentType     = "Content-Type"
 	HeaderVary            = "Vary"
+	HeaderSecWebSocketKey = "Sec-WebSocket-Key"
 )
 
 var serveGzip = func(w http.ResponseWriter, r *http.Request, c martini.Context) {
-	if !strings.Contains(r.Header.Get(HeaderAcceptEncoding), "gzip") {
+	if !strings.Contains(r.Header.Get(HeaderAcceptEncoding), "gzip") ||
+		len(r.Header.Get(HeaderSecWebSocketKey)) > 0 {
 		return
 	}
 
